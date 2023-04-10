@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import CarouselModel, CalculatorModel
+from api.models import CarouselModel, CalculatorModel, ProductModel
 
 
 # Carousel serializers
@@ -10,8 +10,15 @@ class CarouselModelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# Calculator serialziers
+# Calculator serializers
 class CalculatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalculatorModel
+        fields = '__all__'
+
+
+# Product Serializers
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductModel
         fields = '__all__'

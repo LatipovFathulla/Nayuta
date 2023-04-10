@@ -4,8 +4,8 @@ from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
 
 # Exchange rates in home page
-from api.models import CarouselModel
-from api.serializers import CarouselModelSerializer, CalculatorSerializer
+from api.models import CarouselModel, ProductModel, CalculatorModel
+from api.serializers import CarouselModelSerializer, CalculatorSerializer, ProductSerializer
 
 
 @api_view(['GET'])
@@ -35,7 +35,14 @@ class CarouselListAPIView(ListAPIView):
 
 
 # Calcularor method
+class CalculatorListAPIView(ListAPIView):
+    ''' Calcularor view (GET)'''
+    queryset = CalculatorModel.objects.all()
+    serializer_class = CalculatorSerializer
+
+
 class CalculateLoanView(CreateAPIView):
+    ''' Calcularor view (POST)'''
     serializer_class = CalculatorSerializer
 
     def post(self, request, *args, **kwargs):
@@ -55,3 +62,8 @@ class CalculateLoanView(CreateAPIView):
         response_data = serializer.validated_data
         response_data['monthly_payment'] = round(monthly_payment, 2)
         return Response(response_data)
+
+
+class ProductSerializerListAPIView(ListAPIView):
+    queryset = ProductModel.objects.all()
+    serializer_class = ProductSerializer

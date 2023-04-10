@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 
@@ -47,3 +48,18 @@ class CalculatorModel(models.Model):
         verbose_name = _('Calculator')
         verbose_name_plural = _('Calculators')
 
+
+class ProductModel(models.Model):
+    image = models.FileField(upload_to='ProductImage', verbose_name=_('image'))
+    title = models.CharField(max_length=255, verbose_name=_('title'))
+    description = models.TextField(verbose_name=_('description'))
+    link = models.URLField(verbose_name=_('link'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Product')
+        verbose_name_plural = _('Product')
