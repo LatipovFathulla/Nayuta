@@ -8,7 +8,8 @@ schema_view = get_schema_view(
    openapi.Info(
       title="Nayuta API",
       default_version='v1',
-      description="Documentation Nayuta",
+      description="Documentation for Nayuta by Uc-coding.uz",
+      contact=openapi.Contact(url="https://www.uc-coding.uz/"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,

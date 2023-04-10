@@ -1,11 +1,11 @@
 from rest_framework.decorators import api_view
 import requests
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
 
 # Exchange rates in home page
 from api.models import CarouselModel
-from api.serializers import CarouselModelSerializer
+from api.serializers import CarouselModelSerializer, CalculatorSerializer
 
 
 @api_view(['GET'])
@@ -32,3 +32,26 @@ class CarouselListAPIView(ListAPIView):
     ''' Carouse view'''
     queryset = CarouselModel.objects.all()
     serializer_class = CarouselModelSerializer
+
+
+# Calcularor method
+class CalculateLoanView(CreateAPIView):
+    serializer_class = CalculatorSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Расчет ежемесячного платежа по кредиту
+        n = serializer.validated_data['loan_term']
+        r = (serializer.validated_data['interest_rate'] / 100) / 12
+        p = serializer.validated_data['loan_amount']
+        if r == 0:
+            monthly_payment = p / n
+        else:
+            monthly_payment = p * r * ((1 + r) ** n) / (((1 + r) ** n) - 1)
+
+        # Возвращаем результат в формате JSON
+        response_data = serializer.validated_data
+        response_data['monthly_payment'] = round(monthly_payment, 2)
+        return Response(response_data)
