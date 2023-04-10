@@ -1,9 +1,13 @@
 from rest_framework.decorators import api_view
 import requests
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
-
 # Exchange rates in home page
+from api.models import CarouselModel
+from api.serializers import CarouselModelSerializer
+
+
 @api_view(['GET'])
 def exchange_rates(request):
     ''' Exchange rates(Dollar and much more)'''
@@ -19,4 +23,12 @@ def exchange_rates(request):
         return Response(filtered_data)
     else:
         return Response(status=404)
+
+
 # End exchange rates in home page
+
+# Carousel method GET
+class CarouselListAPIView(ListAPIView):
+    ''' Carouse view'''
+    queryset = CarouselModel.objects.all()
+    serializer_class = CarouselModelSerializer
