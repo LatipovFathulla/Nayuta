@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from api.models import CarouselModel, CalculatorModel, ProductModel
+from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel
 
 
 # Carousel administration
@@ -32,3 +32,11 @@ class ProductModelAdmin(admin.ModelAdmin):
         return format_html('<img src="{}" height="60" />'.format(obj.image.url))
 
     image_tag.short_description = 'Image'
+
+
+@admin.register(FAQModel)
+class FAQModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'description', 'created_at', 'updated_at']
+    search_fields = ['title']
+    list_filter = ['title', 'created_at', 'updated_at']
+    ordering = ['-created_at']

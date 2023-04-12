@@ -4,8 +4,8 @@ from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
 
 # Exchange rates in home page
-from api.models import CarouselModel, ProductModel, CalculatorModel
-from api.serializers import CarouselModelSerializer, CalculatorSerializer, ProductSerializer
+from api.models import CarouselModel, ProductModel, CalculatorModel, FAQModel
+from api.serializers import CarouselModelSerializer, CalculatorSerializer, ProductSerializer, FAQSerializer
 
 
 @api_view(['GET'])
@@ -64,6 +64,15 @@ class CalculateLoanView(CreateAPIView):
         return Response(response_data)
 
 
+# Products serialziers
 class ProductSerializerListAPIView(ListAPIView):
+    ''' Products = Микрозайм, микрокредиты и т.д'''
     queryset = ProductModel.objects.all()
     serializer_class = ProductSerializer
+
+
+# FAQ serializers
+class FAQSerializerListAPIView(ListAPIView):
+    ''' FAQ = Часто задаваемые вопросы (GET) '''
+    queryset = FAQModel.objects.all()
+    serializer_class = FAQSerializer

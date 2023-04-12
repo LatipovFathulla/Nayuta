@@ -63,3 +63,17 @@ class ProductModel(models.Model):
     class Meta:
         verbose_name = _('Product')
         verbose_name_plural = _('Product')
+
+
+class FAQModel(models.Model):
+    title = models.CharField(max_length=300, verbose_name=_('title'))
+    description = models.TextField(verbose_name=_('description'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('FAQ')
+        verbose_name_plural = _('FAQs')
