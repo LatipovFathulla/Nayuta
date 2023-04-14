@@ -77,3 +77,47 @@ class FAQModel(models.Model):
     class Meta:
         verbose_name = _('FAQ')
         verbose_name_plural = _('FAQs')
+
+
+class WhoseCreditModel(models.Model):
+    title = models.CharField(max_length=400, verbose_name=_('title'), null=True, blank=True)
+    subtitle = models.CharField(max_length=400, verbose_name=_('subtitle'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Who can get a loan?')
+        verbose_name_plural = _('Who can get a loan?')
+
+
+class IndividualCreditModel(models.Model):
+    title = models.CharField(max_length=400, verbose_name=_('title'), null=True, blank=True)
+    subtitle = models.CharField(max_length=400, verbose_name=_('subtitle'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('What documents are needed?')
+        verbose_name_plural = _('What documents are needed')
+
+
+class IndividualCreditTypeModel(models.Model):
+    title = models.CharField(max_length=400, verbose_name=_('title'))
+    description = models.TextField(verbose_name=_('description'))
+    first_image = models.FileField(upload_to='Individual-images', verbose_name=_('first_image'))
+    second_image = models.FileField(upload_to='Individual-images', verbose_name=_('second_image'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Type of loans')
+        verbose_name_plural = _('Type of loans')
