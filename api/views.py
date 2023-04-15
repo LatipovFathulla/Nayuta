@@ -4,8 +4,10 @@ from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
 
 # Exchange rates in home page
-from api.models import CarouselModel, ProductModel, CalculatorModel, FAQModel
-from api.serializers import CarouselModelSerializer, CalculatorSerializer, ProductSerializer, FAQSerializer
+from api.models import CarouselModel, ProductModel, CalculatorModel, FAQModel, IndividualCreditTypeModel, \
+    WhoseCreditModel, IndividualCreditModel
+from api.serializers import CarouselModelSerializer, CalculatorSerializer, ProductSerializer, FAQSerializer, \
+    WhoseCreditModelSerializer, IndividualCreditModelSerializer, IndividualCreditTypeModelSerializer
 
 
 @api_view(['GET'])
@@ -76,3 +78,19 @@ class FAQSerializerListAPIView(ListAPIView):
     ''' FAQ = Часто задаваемые вопросы (GET) '''
     queryset = FAQModel.objects.all()
     serializer_class = FAQSerializer
+
+
+# Fiz credit
+class WhoseCreditModelSerializerListAPIVIew(ListAPIView):
+    queryset = WhoseCreditModel.objects.all()
+    serializer_class = WhoseCreditModelSerializer
+
+
+class IndividualCreditModelSerializerListAPIVIew(ListAPIView):
+    queryset = IndividualCreditModel.objects.all()
+    serializer_class = IndividualCreditModelSerializer
+
+
+class IndividualCreditTypeModelSerializerListAPIVIew(ListAPIView):
+    queryset = IndividualCreditTypeModel.objects.all()
+    serializer_class = IndividualCreditTypeModelSerializer
