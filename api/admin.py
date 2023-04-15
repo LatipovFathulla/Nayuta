@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel, WhoseCreditModel, IndividualCreditModel, \
-    IndividualCreditTypeModel
+    IndividualCreditTypeModel, LegalEntitiesModel
 
 
 # Carousel administration
@@ -66,3 +66,9 @@ class IndividualCreditTypeModelAdmin(admin.ModelAdmin):
     search_fields = ['title']
     list_filter = ['title', 'created_at', 'updated_at']
     ordering = ['-created_at']
+
+
+@admin.register(LegalEntitiesModel)
+class LegalEntitiesModel(admin.ModelAdmin):
+    list_display = ['id', 'title', 'created_at', 'updated_at']
+    search_fields = ['title']

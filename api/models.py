@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
@@ -121,3 +122,19 @@ class IndividualCreditTypeModel(models.Model):
     class Meta:
         verbose_name = _('Type of loans')
         verbose_name_plural = _('Type of loans')
+
+
+# Yuridik credit
+class LegalEntitiesModel(models.Model):
+    title = models.CharField(max_length=400, verbose_name=_('title'))
+    short_description = models.TextField(verbose_name=_('description'))
+    long_description = RichTextField(verbose_name=_('long_description'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Legal Entities')
+        verbose_name_plural = _('Legal Entities')

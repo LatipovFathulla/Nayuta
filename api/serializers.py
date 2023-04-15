@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel, WhoseCreditModel, IndividualCreditModel, \
-    IndividualCreditTypeModel
+    IndividualCreditTypeModel, LegalEntitiesModel
 
 
 # Carousel serializers
@@ -48,4 +48,11 @@ class IndividualCreditModelSerializer(serializers.ModelSerializer):
 class IndividualCreditTypeModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = IndividualCreditTypeModel
+        fields = '__all__'
+
+
+#Yuridik credit
+class LegalEntitiesModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LegalEntitiesModel
         fields = '__all__'

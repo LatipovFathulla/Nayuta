@@ -2,7 +2,8 @@ from django.urls import path
 
 from api.views import exchange_rates, CarouselListAPIView, CalculateLoanView, ProductSerializerListAPIView, \
     CalculatorListAPIView, FAQSerializerListAPIView, WhoseCreditModelSerializerListAPIVIew, \
-    IndividualCreditModelSerializerListAPIVIew, IndividualCreditTypeModelSerializerListAPIVIew
+    IndividualCreditModelSerializerListAPIVIew, IndividualCreditTypeModelSerializerListAPIVIew, \
+    LegalEntitiesModelSerializerListAPIView
 
 urlpatterns = [
     path('api/v1/exchange-rates/', exchange_rates, name='exchange-rates'),
@@ -14,4 +15,5 @@ urlpatterns = [
     path('api/v1/whose-credit/', WhoseCreditModelSerializerListAPIVIew.as_view(), name='whose-credit'),
     path('api/v1/individual-credit/', IndividualCreditModelSerializerListAPIVIew.as_view(), name='individual-credit'),
     path('api/v1/individual-credit-type/', IndividualCreditTypeModelSerializerListAPIVIew.as_view(), name='individual-credit-type'),
+    path('api/v1/legal-credit/', LegalEntitiesModelSerializerListAPIView.as_view(), name='legal-credit-type'),
 ]
