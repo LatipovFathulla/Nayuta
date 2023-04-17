@@ -1,3 +1,4 @@
+from modeltranslation.utils import get_language
 from rest_framework import serializers
 
 from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel, WhoseCreditModel, IndividualCreditModel, \
@@ -51,8 +52,26 @@ class IndividualCreditTypeModelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-#Yuridik credit
+# Yuridik credit
+# class LegalEntitiesModelSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = LegalEntitiesModel
+#         fields = '__all__'
+
 class LegalEntitiesModelSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    short_description = serializers.SerializerMethodField()
+    long_description = serializers.SerializerMethodField()
+
+    def get_title(self, obj):
+        return obj.title if get_language() == 'en' else getattr(obj, f'title_{get_language()}')
+
+    def get_short_description(self, obj):
+        return obj.short_description if get_language() == 'en' else getattr(obj, f'short_description_{get_language()}')
+
+    def get_long_description(self, obj):
+        return obj.long_description if get_language() == 'en' else getattr(obj, f'long_description_{get_language()}')
+
     class Meta:
         model = LegalEntitiesModel
-        fields = '__all__'
+        fields = ['title', 'short_description', 'long_description']

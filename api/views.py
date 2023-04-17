@@ -1,3 +1,4 @@
+from django.utils.translation import activate
 from rest_framework.decorators import api_view
 import requests
 from rest_framework.generics import ListAPIView, CreateAPIView
@@ -97,6 +98,17 @@ class IndividualCreditTypeModelSerializerListAPIVIew(ListAPIView):
     serializer_class = IndividualCreditTypeModelSerializer
 
 
+# class LegalEntitiesModelSerializerListAPIView(ListAPIView):
+#     queryset = LegalEntitiesModel.objects.all()
+#     serializer_class = LegalEntitiesModelSerializer
+
 class LegalEntitiesModelSerializerListAPIView(ListAPIView):
     queryset = LegalEntitiesModel.objects.all()
     serializer_class = LegalEntitiesModelSerializer
+
+    def list(self, request, *args, **kwargs):
+        language = request.META.get('HTTP_ACCEPT_LANGUAGE')
+        if language:
+            activate(language)
+
+        return super().list(request, *args, **kwargs)

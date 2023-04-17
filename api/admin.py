@@ -1,8 +1,20 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from modeltranslation.admin import TranslationAdmin
 
 from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel, WhoseCreditModel, IndividualCreditModel, \
     IndividualCreditTypeModel, LegalEntitiesModel
+
+class MyTranslationAdmin(TranslationAdmin):
+    class Media:
+        js = (
+            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
+            'modeltranslation/js/tabbed_translation_fields.js',
+        )
+        css = {
+            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
+        }
 
 
 # Carousel administration
@@ -69,6 +81,6 @@ class IndividualCreditTypeModelAdmin(admin.ModelAdmin):
 
 
 @admin.register(LegalEntitiesModel)
-class LegalEntitiesModel(admin.ModelAdmin):
+class LegalEntitiesModel(MyTranslationAdmin):
     list_display = ['id', 'title', 'created_at', 'updated_at']
     search_fields = ['title']

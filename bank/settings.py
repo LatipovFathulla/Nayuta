@@ -31,10 +31,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'corsheaders',
+    'rosetta',
     'ckeditor',
     'ckeditor_uploader',
     'drf_yasg',
     'rest_framework',
+
+
     'api',
 ]
 
@@ -44,6 +47,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -83,7 +87,6 @@ DATABASES = {
          'PORT': config('DB_PORT'),
      }
 }
-#
 # DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
@@ -118,6 +121,8 @@ LANGUAGES = (
     ('ru', _('Russian')),
     ('uz', _('Uzbek')),
 )
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 
 LOCALE_PATHS = BASE_DIR / 'locale',
 
