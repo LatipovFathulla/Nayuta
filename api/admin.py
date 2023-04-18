@@ -20,7 +20,7 @@ class MyTranslationAdmin(TranslationAdmin):
 
 # Carousel administration
 @admin.register(CarouselModel)
-class CarouselModelAdmin(admin.ModelAdmin):
+class CarouselModelAdmin(MyTranslationAdmin):
     list_display = ['id', 'title', 'created_at', 'updated_at']
     search_fields = ['title']
     list_filter = ['title', 'created_at', 'updated_at']
@@ -35,7 +35,7 @@ class CalculatorModelAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProductModel)
-class ProductModelAdmin(admin.ModelAdmin):
+class ProductModelAdmin(MyTranslationAdmin):
     list_display = ['id', 'title', 'image_tag', 'created_at', 'updated_at']
     search_fields = ['title']
     list_filter = ['title', 'created_at', 'updated_at']
@@ -49,7 +49,7 @@ class ProductModelAdmin(admin.ModelAdmin):
 
 
 @admin.register(FAQModel)
-class FAQModelAdmin(admin.ModelAdmin):
+class FAQModelAdmin(MyTranslationAdmin):
     list_display = ['id', 'title', 'description', 'created_at', 'updated_at']
     search_fields = ['title']
     list_filter = ['title', 'created_at', 'updated_at']
@@ -58,14 +58,14 @@ class FAQModelAdmin(admin.ModelAdmin):
 
 # Fiz Admin
 @admin.register(IndividualCreditModel)
-class IndividualCreditModelAdmin(admin.ModelAdmin):
+class IndividualCreditModelAdmin(MyTranslationAdmin):
     list_display = ['id', 'title', 'created_at', 'updated_at']
     search_fields = ['title']
     ordering = ['-created_at']
 
 
 @admin.register(IndividualCreditTypeModel)
-class IndividualCreditTypeModelAdmin(admin.ModelAdmin):
+class IndividualCreditTypeModelAdmin(MyTranslationAdmin):
     list_display = ['id', 'title', 'created_at', 'updated_at']
     search_fields = ['title']
     list_filter = ['title', 'created_at', 'updated_at']

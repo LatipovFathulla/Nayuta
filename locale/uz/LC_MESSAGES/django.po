@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-15 19:14+0000\n"
+"POT-Creation-Date: 2023-04-18 18:44+0000\n"
 "PO-Revision-Date: 2023-04-15 19:19+0000\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,121 +19,126 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Translated-Using: django-rosetta 0.9.8\n"
 
-#: api/models.py:9 api/models.py:55 api/models.py:70 api/models.py:84
-#: api/models.py:98 api/models.py:112 api/models.py:129
+#: api/models.py:11 api/models.py:57 api/models.py:72 api/models.py:87
+#: api/models.py:101 api/models.py:133
 msgid "title"
 msgstr "Nomi"
 
-#: api/models.py:10
+#: api/models.py:12
 msgid "descriptions"
 msgstr "Tavsifi"
 
-#: api/models.py:11 api/models.py:54
+#: api/models.py:13 api/models.py:56
 msgid "image"
 msgstr "rasmi"
 
-#: api/models.py:12 api/models.py:57
+#: api/models.py:14 api/models.py:59
 msgid "link"
 msgstr "ssilkasi"
 
-#: api/models.py:13 api/models.py:42 api/models.py:58 api/models.py:72
-#: api/models.py:86 api/models.py:100 api/models.py:116 api/models.py:132
+#: api/models.py:15 api/models.py:44 api/models.py:60 api/models.py:74
+#: api/models.py:89 api/models.py:90 api/models.py:105 api/models.py:136
 msgid "created_at"
 msgstr "vohti"
 
-#: api/models.py:14 api/models.py:43 api/models.py:59 api/models.py:73
-#: api/models.py:87 api/models.py:101 api/models.py:117 api/models.py:133
+#: api/models.py:16 api/models.py:45 api/models.py:61 api/models.py:75
+#: api/models.py:106 api/models.py:137
 msgid "updated_at"
 msgstr "ozgartrlgan"
 
-#: api/models.py:20
+#: api/models.py:22
 msgid "Carousel"
 msgstr "carde"
 
-#: api/models.py:21
+#: api/models.py:23
 msgid "Carousels"
 msgstr "carlar"
 
-#: api/models.py:38
+#: api/models.py:40
 msgid "borrower_type"
 msgstr "kredit ekan"
 
-#: api/models.py:39
+#: api/models.py:41
 msgid "loan_amount"
 msgstr "uzun kredit"
 
-#: api/models.py:40
+#: api/models.py:42
 msgid "loan_term"
 msgstr "vashe credit"
 
-#: api/models.py:41
+#: api/models.py:43
 msgid "interest_rate"
 msgstr "tip credit"
 
-#: api/models.py:49
+#: api/models.py:51
 msgid "Calculator"
 msgstr "calculat"
 
-#: api/models.py:50
+#: api/models.py:52
 msgid "Calculators"
 msgstr "calcurlatlar"
 
-#: api/models.py:56 api/models.py:71 api/models.py:113 api/models.py:130
+#: api/models.py:58 api/models.py:73 api/models.py:88 api/models.py:102
+#: api/models.py:134
 msgid "description"
 msgstr "tavsifi"
 
-#: api/models.py:65 api/models.py:66
+#: api/models.py:67 api/models.py:68
 msgid "Product"
 msgstr "mahsulot"
 
-#: api/models.py:79
+#: api/models.py:81
 msgid "FAQ"
 msgstr "KMU"
 
-#: api/models.py:80
+#: api/models.py:82
 msgid "FAQs"
 msgstr "KMu"
 
-#: api/models.py:85 api/models.py:99
-msgid "subtitle"
-msgstr "maqola"
+#: api/models.py:96
+msgid "Individual Credit"
+msgstr ""
 
-#: api/models.py:93 api/models.py:94
-msgid "Who can get a loan?"
-msgstr "kim nma"
+#: api/models.py:97
+msgid "Individual Credits"
+msgstr ""
 
-#: api/models.py:107
-msgid "What documents are needed?"
-msgstr "bizga kerak"
-
-#: api/models.py:108
-msgid "What documents are needed"
-msgstr "sangakere"
-
-#: api/models.py:114
+#: api/models.py:103
 msgid "first_image"
 msgstr "rasm"
 
-#: api/models.py:115
+#: api/models.py:104
 msgid "second_image"
 msgstr "kotrasm"
 
-#: api/models.py:123 api/models.py:124
+#: api/models.py:112 api/models.py:113
 msgid "Type of loans"
 msgstr "keim"
 
-#: api/models.py:131
+#: api/models.py:135
 msgid "long_description"
 msgstr "karim"
 
-#: api/models.py:139 api/models.py:140
+#: api/models.py:143 api/models.py:144
 msgid "Legal Entities"
 msgstr "kota"
 
-#: bank/settings.py:122
+#: bank/settings.py:118
 msgid "Russian"
 msgstr "rusde"
 
-#: bank/settings.py:123
+#: bank/settings.py:119
 msgid "Uzbek"
 msgstr "ozbe"
+
+#~ msgid "subtitle"
+#~ msgstr "maqola"
+
+#~ msgid "Who can get a loan?"
+#~ msgstr "kim nma"
+
+#~ msgid "What documents are needed?"
+#~ msgstr "bizga kerak"
+
+#~ msgid "What documents are needed"
+#~ msgstr "sangakere"

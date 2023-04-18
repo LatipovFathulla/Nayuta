@@ -37,6 +37,13 @@ class CarouselListAPIView(ListAPIView):
     queryset = CarouselModel.objects.all()
     serializer_class = CarouselModelSerializer
 
+    def list(self, request, *args, **kwargs):
+        language = request.META.get('HTTP_ACCEPT_LANGUAGE')
+        if language:
+            activate(language)
+
+        return super().list(request, *args, **kwargs)
+
 
 # Calcularor method
 class CalculatorListAPIView(ListAPIView):
@@ -74,12 +81,26 @@ class ProductSerializerListAPIView(ListAPIView):
     queryset = ProductModel.objects.all()
     serializer_class = ProductSerializer
 
+    def list(self, request, *args, **kwargs):
+        language = request.META.get('HTTP_ACCEPT_LANGUAGE')
+        if language:
+            activate(language)
+
+        return super().list(request, *args, **kwargs)
+
 
 # FAQ serializers
 class FAQSerializerListAPIView(ListAPIView):
     ''' FAQ = Часто задаваемые вопросы (GET) '''
     queryset = FAQModel.objects.all()
     serializer_class = FAQSerializer
+
+    def list(self, request, *args, **kwargs):
+        language = request.META.get('HTTP_ACCEPT_LANGUAGE')
+        if language:
+            activate(language)
+
+        return super().list(request, *args, **kwargs)
 
 
 # Fiz credit
@@ -88,11 +109,25 @@ class IndividualCreditModelSerializerListAPIView(ListAPIView):
     queryset = IndividualCreditModel.objects.all()
     serializer_class = IndividualCreditModelSerializer
 
+    def list(self, request, *args, **kwargs):
+        language = request.META.get('HTTP_ACCEPT_LANGUAGE')
+        if language:
+            activate(language)
+
+        return super().list(request, *args, **kwargs)
+
 
 class IndividualCreditTypeModelSerializerListAPIVIew(ListAPIView):
     '''Физ лицам Автокредит до 50 млн сум на 36 месяцев ....'''
     queryset = IndividualCreditTypeModel.objects.all()
     serializer_class = IndividualCreditTypeModelSerializer
+
+    def list(self, request, *args, **kwargs):
+        language = request.META.get('HTTP_ACCEPT_LANGUAGE')
+        if language:
+            activate(language)
+
+        return super().list(request, *args, **kwargs)
 
 
 # class LegalEntitiesModelSerializerListAPIView(ListAPIView):
