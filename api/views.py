@@ -6,10 +6,10 @@ from rest_framework.response import Response
 
 # Exchange rates in home page
 from api.models import CarouselModel, ProductModel, CalculatorModel, FAQModel, IndividualCreditTypeModel, \
-    WhoseCreditModel, IndividualCreditModel, LegalEntitiesModel
+    LegalEntitiesModel, IndividualCreditModel
 from api.serializers import CarouselModelSerializer, CalculatorSerializer, ProductSerializer, FAQSerializer, \
-    WhoseCreditModelSerializer, IndividualCreditModelSerializer, IndividualCreditTypeModelSerializer, \
-    LegalEntitiesModelSerializer
+    IndividualCreditTypeModelSerializer, \
+    LegalEntitiesModelSerializer, IndividualCreditModelSerializer
 
 
 @api_view(['GET'])
@@ -83,17 +83,14 @@ class FAQSerializerListAPIView(ListAPIView):
 
 
 # Fiz credit
-class WhoseCreditModelSerializerListAPIVIew(ListAPIView):
-    queryset = WhoseCreditModel.objects.all()
-    serializer_class = WhoseCreditModelSerializer
-
-
-class IndividualCreditModelSerializerListAPIVIew(ListAPIView):
+class IndividualCreditModelSerializerListAPIView(ListAPIView):
+    '''Физ лицам Кто может получать кредит ..'''
     queryset = IndividualCreditModel.objects.all()
     serializer_class = IndividualCreditModelSerializer
 
 
 class IndividualCreditTypeModelSerializerListAPIVIew(ListAPIView):
+    '''Физ лицам Автокредит до 50 млн сум на 36 месяцев ....'''
     queryset = IndividualCreditTypeModel.objects.all()
     serializer_class = IndividualCreditTypeModelSerializer
 
@@ -103,6 +100,7 @@ class IndividualCreditTypeModelSerializerListAPIVIew(ListAPIView):
 #     serializer_class = LegalEntitiesModelSerializer
 
 class LegalEntitiesModelSerializerListAPIView(ListAPIView):
+    ''' Юр лицам Автокредит до 300 млн сумна 36 месяцев'''
     queryset = LegalEntitiesModel.objects.all()
     serializer_class = LegalEntitiesModelSerializer
 

@@ -2,8 +2,9 @@ from django.contrib import admin
 from django.utils.html import format_html
 from modeltranslation.admin import TranslationAdmin
 
-from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel, WhoseCreditModel, IndividualCreditModel, \
-    IndividualCreditTypeModel, LegalEntitiesModel
+from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel, \
+    IndividualCreditTypeModel, LegalEntitiesModel, IndividualCreditModel
+
 
 class MyTranslationAdmin(TranslationAdmin):
     class Media:
@@ -56,19 +57,10 @@ class FAQModelAdmin(admin.ModelAdmin):
 
 
 # Fiz Admin
-@admin.register(WhoseCreditModel)
-class WhoseCreditModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'created_at', 'updated_at']
-    search_fields = ['title']
-    list_filter = ['title', 'created_at', 'updated_at']
-    ordering = ['-created_at']
-
-
 @admin.register(IndividualCreditModel)
 class IndividualCreditModelAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'created_at', 'updated_at']
     search_fields = ['title']
-    list_filter = ['title', 'created_at', 'updated_at']
     ordering = ['-created_at']
 
 

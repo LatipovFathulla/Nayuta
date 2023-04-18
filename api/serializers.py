@@ -1,8 +1,8 @@
 from modeltranslation.utils import get_language
 from rest_framework import serializers
 
-from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel, WhoseCreditModel, IndividualCreditModel, \
-    IndividualCreditTypeModel, LegalEntitiesModel
+from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel, \
+    IndividualCreditTypeModel, LegalEntitiesModel, IndividualCreditModel
 
 
 # Carousel serializers
@@ -34,12 +34,6 @@ class FAQSerializer(serializers.ModelSerializer):
 
 
 # Fiz Credit
-class WhoseCreditModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WhoseCreditModel
-        fields = '__all__'
-
-
 class IndividualCreditModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = IndividualCreditModel
