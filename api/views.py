@@ -187,7 +187,7 @@ class CreditCalculatorAPIView(CreateAPIView):
 
             if payment_schedule == 'annuity':
                 # Добавляем месяц к дате следующего платежа
-                payment_date += relativedelta(months=2)
+                payment_date += relativedelta(months=1)
 
         # Сохраняем данные кредита и платежей в базе данных
         down_payment_amount = price * (down_payment_percentage / 100)
