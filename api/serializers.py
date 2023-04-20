@@ -139,4 +139,4 @@ class LegalEntitiesModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LegalEntitiesModel
-        fields = ['title', 'short_description', 'long_description']
+        fields = ['title', 'short_description', 'long_description', 'first_image', 'second_image']

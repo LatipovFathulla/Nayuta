@@ -125,6 +125,8 @@ class LegalEntitiesModel(models.Model):
     title = models.CharField(max_length=400, verbose_name=_('title'))
     short_description = models.TextField(verbose_name=_('description'))
     long_description = RichTextField(verbose_name=_('long_description'))
+    first_image = models.FileField(upload_to='Individual-images', verbose_name=_('first_image'))
+    second_image = models.FileField(upload_to='Individual-images', verbose_name=_('second_image'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
 
