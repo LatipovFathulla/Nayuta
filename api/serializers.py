@@ -32,11 +32,26 @@ class PaymentSerializer(serializers.ModelSerializer):
 
 class CreditSerializer(serializers.ModelSerializer):
     payments = PaymentSerializer(many=True)
+    total_payments = serializers.SerializerMethodField()
+    overpayment = serializers.SerializerMethodField()
 
     class Meta:
         model = Credit
         fields = ('price', 'down_payment_percentage', 'loan_amount', 'interest_rate', 'payment_schedule', 'loan_period',
-                  'payments')
+                  'payments', 'total_payments', 'overpayment')
+
+    def get_total_payments(self, obj):
+        payment_amount = obj.payments.first().payment_amount
+        loan_period = obj.loan_period
+        all = payment_amount * loan_period
+        return all
+
+    def get_overpayment(self, obj):
+        total_payments = len(obj.payments.all())
+        payment_amount = obj.payments.first().payment_amount
+        total_amount = payment_amount * total_payments
+        overpayment = total_amount - obj.loan_amount
+        return str(overpayment)
 
 
 # Product Serializers
