@@ -1,13 +1,20 @@
+from dateutil.relativedelta import relativedelta
 from django.utils.translation import activate
 from rest_framework.decorators import api_view
 import requests
+from datetime import datetime, timedelta
+from rest_framework import status
+from .models import Credit, Payment
+from .serializers import CreditSerializer
+from decimal import Decimal
+
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
 
 # Exchange rates in home page
-from api.models import CarouselModel, ProductModel, CalculatorModel, FAQModel, IndividualCreditTypeModel, \
+from api.models import CarouselModel, ProductModel, FAQModel, IndividualCreditTypeModel, \
     LegalEntitiesModel, IndividualCreditModel
-from api.serializers import CarouselModelSerializer, CalculatorSerializer, ProductSerializer, FAQSerializer, \
+from api.serializers import CarouselModelSerializer, ProductSerializer, FAQSerializer, \
     IndividualCreditTypeModelSerializer, \
     LegalEntitiesModelSerializer, IndividualCreditModelSerializer
 
@@ -45,35 +52,162 @@ class CarouselListAPIView(ListAPIView):
         return super().list(request, *args, **kwargs)
 
 
-# Calcularor method
-class CalculatorListAPIView(ListAPIView):
-    ''' Calcularor view (GET)'''
-    queryset = CalculatorModel.objects.all()
-    serializer_class = CalculatorSerializer
+#Calculate
+# class CreditCalculatorAPIView(CreateAPIView):
+#     serializer_class = CreditSerializer
+#     queryset = Credit.objects.all()
+#
+#     def create(self, request, *args, **kwargs):
+#         # Получаем данные из запроса
+#         data = request.data
+#
+#         # Вычисляем параметры кредита
+#         price = Decimal(data['price'])
+#         down_payment_percentage = Decimal(data['down_payment_percentage'])
+#         loan_amount = Decimal(data['loan_amount'])
+#         interest_rate = Decimal(data['interest_rate']) / 100
+#         payment_schedule = data['payment_schedule']
+#         loan_period = int(data['loan_period'])
+#
+#         # Вычисляем параметры выплаты
+#         if payment_schedule == 'annuity':
+#             # Аннуитетный платеж
+#             payment_amount = loan_amount * (interest_rate / 12) * ((1 + interest_rate / 12) ** (loan_period * 12)) / (((1 + interest_rate / 12) ** (loan_period * 12)) - 1)
+#         elif payment_schedule == 'differentiated':
+#             # Дифференцированный платеж
+#             payment_amount = loan_amount / (loan_period * 12)
+#
+#         # Вычисляем даты и суммы платежей
+#         payment_date = datetime.now().
+#         remaining_balance = loan_amount
+#         payments = []
+#         for i in range(1, loan_period * 12 + 1):
+#             if payment_schedule == 'annuity':
+#                 # Аннуитетный платеж
+#                 interest_amount = remaining_balance * (interest_rate / 12)
+#                 principal_amount = payment_amount - interest_amount
+#             elif payment_schedule == 'differentiated':
+#                 # Дифференцированный платеж
+#                 principal_amount = loan_amount / (loan_period * 12)
+#                 interest_amount = remaining_balance * (interest_rate / 12)
+#                 payment_amount = principal_amount + interest_amount
+#
+#             remaining_balance -= principal_amount
+#
+#             # Сохраняем данные платежа в модели Payment
+#             payment = Payment(
+#                 credit=None,
+#                 payment_number=i,
+#                 payment_date=payment_date,
+#                 payment_amount=payment_amount,
+#                 principal_amount=principal_amount,
+#                 interest_amount=interest_amount,
+#                 remaining_balance=remaining_balance
+#             )
+#             payments.append(payment)
+#
+#             if payment_schedule == 'annuity':
+#                 # Добавляем месяц к дате следующего платежа
+#                 payment_date += timedelta(days=30)
+#
+#         # Сохраняем данные кредита и платежей в базе данных
+#         down_payment_amount = price * (down_payment_percentage / 100)
+#         loan_amount = price - down_payment_amount
+#         credit = Credit(
+#             price=price,
+#             down_payment_percentage=down_payment_percentage,
+#             loan_amount=loan_amount,
+#             interest_rate=interest_rate * 100,
+#             payment_schedule=payment_schedule,
+#             loan_period=loan_period
+#         )
+#         credit.save()
+#         for payment in payments:
+#             payment.credit = credit
+#             payment.save()
+#
+#         # Возвращаем данные в ответе
+#         serializer = CreditSerializer(credit)
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class CalculateLoanView(CreateAPIView):
-    ''' Calcularor view (POST)'''
-    serializer_class = CalculatorSerializer
+class CreditCalculatorAPIView(CreateAPIView):
+    serializer_class = CreditSerializer
+    queryset = Credit.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+    def create(self, request, *args, **kwargs):
+        # Получаем данные из запроса
+        data = request.data
 
-        # Расчет ежемесячного платежа по кредиту
-        n = serializer.validated_data['loan_term']
-        r = (serializer.validated_data['interest_rate'] / 100) / 12
-        p = serializer.validated_data['loan_amount']
-        if r == 0:
-            monthly_payment = p / n
-        else:
-            monthly_payment = p * r * ((1 + r) ** n) / (((1 + r) ** n) - 1)
+        # Вычисляем параметры кредита
+        price = Decimal(data['price'])
+        down_payment_percentage = Decimal(data['down_payment_percentage'])
+        loan_amount = Decimal(data['loan_amount'])
+        interest_rate = Decimal(data['interest_rate']) / 100
+        payment_schedule = data['payment_schedule']
+        loan_period = int(data['loan_period'])
 
-        # Возвращаем результат в формате JSON
-        response_data = serializer.validated_data
-        response_data['monthly_payment'] = round(monthly_payment, 2)
-        return Response(response_data)
+        # Вычисляем параметры выплаты
+        if payment_schedule == 'annuity':
+            # Аннуитетный платеж
+            payment_amount = loan_amount * (interest_rate / 12) * ((1 + interest_rate / 12) ** (loan_period)) / (((1 + interest_rate / 12) ** (loan_period)) - 1)
+        elif payment_schedule == 'differentiated':
+            # Дифференцированный платеж
+            payment_amount = loan_amount / (loan_period)
 
+        # Вычисляем даты и суммы платежей
+        payment_date = datetime.now()
+        remaining_balance = loan_amount
+        payments = []
+        for i in range(1, loan_period + 1):
+            if payment_schedule == 'annuity':
+                # Аннуитетный платеж
+                payment_amount = loan_amount * (interest_rate / 12) * ((1 + interest_rate / 12) ** (loan_period)) / (((1 + interest_rate / 12) ** (loan_period)) - 1)
+                interest_amount = remaining_balance * (interest_rate / 12)
+                principal_amount = payment_amount - interest_amount
+            elif payment_schedule == 'differentiated':
+                # Дифференцированный платеж
+                principal_amount = loan_amount / (loan_period)
+                interest_amount = remaining_balance * (interest_rate / 12)
+                payment_amount = principal_amount + interest_amount
+
+            remaining_balance -= principal_amount
+
+            # Сохраняем данные платежа в модели Payment
+            payment = Payment(
+                credit=None,
+                payment_number=i,
+                payment_date=payment_date,
+                payment_amount=payment_amount,
+                principal_amount=principal_amount,
+                interest_amount=interest_amount,
+                remaining_balance=remaining_balance
+            )
+            payments.append(payment)
+
+            if payment_schedule == 'annuity':
+                # Добавляем месяц к дате следующего платежа
+                payment_date += relativedelta(months=1)
+
+        # Сохраняем данные кредита и платежей в базе данных
+        down_payment_amount = price * (down_payment_percentage / 100)
+        loan_amount = price - down_payment_amount
+        credit = Credit(
+            price=price,
+            down_payment_percentage=down_payment_percentage,
+            loan_amount=loan_amount,
+            interest_rate=interest_rate * 100,
+            payment_schedule=payment_schedule,
+            loan_period=loan_period
+        )
+        credit.save()
+        for payment in payments:
+            payment.credit = credit
+            payment.save()
+
+        # Возвращаем данные в ответе
+        serializer = CreditSerializer(credit)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 # Products serialziers
 class ProductSerializerListAPIView(ListAPIView):
@@ -87,8 +221,6 @@ class ProductSerializerListAPIView(ListAPIView):
             activate(language)
 
         return super().list(request, *args, **kwargs)
-
-
 # FAQ serializers
 class FAQSerializerListAPIView(ListAPIView):
     ''' FAQ = Часто задаваемые вопросы (GET) '''

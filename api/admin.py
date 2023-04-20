@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from modeltranslation.admin import TranslationAdmin
 
-from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel, \
+from api.models import CarouselModel, ProductModel, FAQModel, \
     IndividualCreditTypeModel, LegalEntitiesModel, IndividualCreditModel
 
 
@@ -28,10 +28,6 @@ class CarouselModelAdmin(MyTranslationAdmin):
 
 
 # Calculator administration
-@admin.register(CalculatorModel)
-class CalculatorModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'borrower_type', 'loan_amount', 'loan_term']
-    search_fields = ['id']
 
 
 @admin.register(ProductModel)

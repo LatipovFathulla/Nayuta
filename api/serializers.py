@@ -1,8 +1,8 @@
 from modeltranslation.utils import get_language
 from rest_framework import serializers
 
-from api.models import CarouselModel, CalculatorModel, ProductModel, FAQModel, \
-    IndividualCreditTypeModel, LegalEntitiesModel, IndividualCreditModel
+from api.models import CarouselModel, ProductModel, FAQModel, \
+    IndividualCreditTypeModel, LegalEntitiesModel, IndividualCreditModel, Payment, Credit
 
 
 # Carousel serializers
@@ -22,10 +22,21 @@ class CarouselModelSerializer(serializers.ModelSerializer):
 
 
 # Calculator serializers
-class CalculatorSerializer(serializers.ModelSerializer):
+class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CalculatorModel
-        fields = '__all__'
+        model = Payment
+        fields = (
+            'payment_number', 'payment_date', 'payment_amount', 'principal_amount', 'interest_amount',
+            'remaining_balance')
+
+
+class CreditSerializer(serializers.ModelSerializer):
+    payments = PaymentSerializer(many=True)
+
+    class Meta:
+        model = Credit
+        fields = ('price', 'down_payment_percentage', 'loan_amount', 'interest_rate', 'payment_schedule', 'loan_period',
+                  'payments')
 
 
 # Product Serializers

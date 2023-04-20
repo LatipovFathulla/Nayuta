@@ -26,30 +26,22 @@ class CarouselModel(models.Model):
 # End Carouserl Model
 
 # Calculator Model
-class CalculatorModel(models.Model):
-    BORROW_CHOICES = (
-        ('физическим лицам', 'Физическим лицам'),
-        ('юридическим лицам', 'Юридическим лицам'),
-    )
-    borrower_type = models.CharField(
-        max_length=70,
-        choices=BORROW_CHOICES,
-        default=BORROW_CHOICES[0],
-        null=True,
-        blank=True,
-        verbose_name=_('borrower_type'))
-    loan_amount = models.FloatField(verbose_name=_('loan_amount'))
-    loan_term = models.IntegerField(verbose_name=_('loan_term'))
-    interest_rate = models.FloatField(verbose_name=_('interest_rate'))
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+class Credit(models.Model):
+    price = models.DecimalField(max_digits=15, decimal_places=2)
+    down_payment_percentage = models.DecimalField(max_digits=6, decimal_places=2)
+    loan_amount = models.DecimalField(max_digits=15, decimal_places=2)
+    interest_rate = models.DecimalField(max_digits=15, decimal_places=2)
+    payment_schedule = models.CharField(max_length=20)
+    loan_period = models.IntegerField()
 
-    def __str__(self):
-        return self.borrower_type
-
-    class Meta:
-        verbose_name = _('Calculator')
-        verbose_name_plural = _('Calculators')
+class Payment(models.Model):
+    credit = models.ForeignKey(Credit, on_delete=models.CASCADE, related_name='payments')
+    payment_number = models.IntegerField()
+    payment_date = models.DateField()
+    payment_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    principal_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    interest_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    remaining_balance = models.DecimalField(max_digits=12, decimal_places=2)
 
 
 class ProductModel(models.Model):
