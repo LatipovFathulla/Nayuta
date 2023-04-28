@@ -193,15 +193,15 @@ JAZZMIN_SETTINGS = {
     "show_ui_builder": True, "topmenu_links": [
 
         # Url that gets reversed (Permissions can be added)
-        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Главная", "url": "admin:index", "permissions": ["auth.view_user"]},
 
         # external url that opens in a new window (Permissions can be added)
-        {"name": "Products", "url": "/admin/home/bannerinfomodel/"},
-        {"name": "Categories", "url": "/admin/home/categorymodel/"},
-        {"name": "Subcategories", "url": "/admin/home/subcategorymodel/"},
-        {"name": "Lines", "url": "/admin/lines/linemodel/"},
-        {"name": "Blogs", "url": "/admin/blog/blogmodel/"},
-        {"name": "Biznes", "url": "/admin/blog/blogmodel/"},
+        {"name": "Физ.лицо", "url": "/admin/api/individualcreditmodel/"},
+        {"name": "Юр.лицо", "url": "/admin/api/legalentitiesmodel/"},
+        {"name": "Тип кредита", "url": "/admin/api/individualcredittypemodel/"},
+        {"name": "Продукт", "url": "/admin/api/productmodel/"},
+        {"name": "FAQ", "url": "/admin/api/faqmodel/"},
+        {"name": "Главная", "url": "/admin/api/carouselmodel/"},
 
     ], "usermenu_links": [
         {"model": "auth.user"}
