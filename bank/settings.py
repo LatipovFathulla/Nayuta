@@ -201,7 +201,7 @@ JAZZMIN_SETTINGS = {
         {"name": "Тип кредита", "url": "/admin/api/individualcredittypemodel/"},
         {"name": "Продукт", "url": "/admin/api/productmodel/"},
         {"name": "FAQ", "url": "/admin/api/faqmodel/"},
-        {"name": "Главная", "url": "/admin/api/carouselmodel/"},
+        {"name": "Главная Фон", "url": "/admin/api/carouselmodel/"},
 
     ], "usermenu_links": [
         {"model": "auth.user"}
