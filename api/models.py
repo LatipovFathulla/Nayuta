@@ -27,11 +27,19 @@ class CarouselModel(models.Model):
 
 # Calculator Model
 class Credit(models.Model):
+    ANNUITY = 'annuity'
+    DIFFERENTIATED = 'differentiated'
+
+    PAYMENT_SCHEDULE_CHOICES = [
+        (ANNUITY, 'Annuity'),
+        (DIFFERENTIATED, 'Differentiated'),
+    ]
+
     price = models.DecimalField(max_digits=15, decimal_places=2)
     down_payment_percentage = models.DecimalField(max_digits=6, decimal_places=2)
     loan_amount = models.DecimalField(max_digits=15, decimal_places=2)
     interest_rate = models.DecimalField(max_digits=15, decimal_places=2)
-    payment_schedule = models.CharField(max_length=20)
+    payment_schedule = models.CharField(max_length=20, choices=PAYMENT_SCHEDULE_CHOICES)
     loan_period = models.IntegerField()
 
 class Payment(models.Model):

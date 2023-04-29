@@ -41,17 +41,43 @@ class CreditSerializer(serializers.ModelSerializer):
                   'payments', 'total_payments', 'overpayment')
 
     def get_total_payments(self, obj):
-        payment_amount = obj.payments.first().payment_amount
-        loan_period = obj.loan_period
-        all = payment_amount * loan_period
-        return all
+        if obj.payment_schedule == 'annuity':
+            payment_amount = obj.payments.first().payment_amount
+            loan_period = obj.loan_period
+            total_payments = payment_amount * loan_period
+        elif obj.payment_schedule == 'differentiated':
+            loan_amount = obj.loan_amount
+            loan_period = obj.loan_period
+            interest_rate = obj.interest_rate
+            monthly_interest_rate = interest_rate / 12 / 100
+            principal = loan_amount / loan_period
+            total_payments = 0
+            for i in range(loan_period):
+                interest_amount = (loan_amount - i * principal) * monthly_interest_rate
+                total_payments += principal + 4000 + interest_amount
+        else:
+            total_payments = 0
+        return total_payments
 
     def get_overpayment(self, obj):
-        total_payments = len(obj.payments.all())
-        payment_amount = obj.payments.first().payment_amount
-        total_amount = payment_amount * total_payments
-        overpayment = total_amount - obj.loan_amount
-        return str(overpayment)
+        if obj.payment_schedule == 'annuity':
+            total_payments = len(obj.payments.all())
+            payment_amount = obj.payments.first().payment_amount
+            total_amount = payment_amount * total_payments
+            overpayment = total_amount - obj.loan_amount
+        elif obj.payment_schedule == 'differentiated':
+            loan_amount = obj.loan_amount
+            loan_period = obj.loan_period
+            interest_rate = obj.interest_rate
+            monthly_interest_rate = interest_rate / 12 / 100
+            principal = loan_amount / loan_period
+            overpayment = 0
+            for i in range(loan_period):
+                interest_amount = (loan_amount - i * principal) * monthly_interest_rate
+                overpayment += interest_amount + 4000
+        else:
+            overpayment = 0
+        return overpayment
 
 
 # Product Serializers

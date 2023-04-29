@@ -153,11 +153,13 @@ class CreditCalculatorAPIView(CreateAPIView):
             payment_amount = loan_amount * (interest_rate / 12) * ((1 + interest_rate / 12) ** (loan_period)) / (((1 + interest_rate / 12) ** (loan_period)) - 1)
         elif payment_schedule == 'differentiated':
             # Дифференцированный платеж
-            payment_amount = loan_amount / (loan_period)
+            payment_amount = loan_amount / loan_period
 
         # Вычисляем даты и суммы платежей
         payment_date = datetime.now()
         remaining_balance = loan_amount
+        total_payments = 0
+        overpayment = 0
         payments = []
         for i in range(1, loan_period + 1):
             if payment_schedule == 'annuity':
@@ -167,11 +169,17 @@ class CreditCalculatorAPIView(CreateAPIView):
                 principal_amount = payment_amount - interest_amount
             elif payment_schedule == 'differentiated':
                 # Дифференцированный платеж
-                principal_amount = loan_amount / (loan_period)
+                principal_amount = loan_amount / loan_period
                 interest_amount = remaining_balance * (interest_rate / 12)
                 payment_amount = principal_amount + interest_amount
+                overpayment += interest_amount
 
+            total_payments += payment_amount
             remaining_balance -= principal_amount
+
+            if payment_schedule == 'differentiated':
+                overpayment += interest_amount
+
 
             # Сохраняем данные платежа в модели Payment
             payment = Payment(
