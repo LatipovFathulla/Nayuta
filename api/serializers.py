@@ -46,35 +46,20 @@ class CreditSerializer(serializers.ModelSerializer):
             loan_period = obj.loan_period
             total_payments = payment_amount * loan_period
         elif obj.payment_schedule == 'differentiated':
-            loan_amount = obj.loan_amount
-            loan_period = obj.loan_period
-            interest_rate = obj.interest_rate
-            monthly_interest_rate = interest_rate / 12 / 100
-            principal = loan_amount / loan_period
-            total_payments = 0
-            for i in range(loan_period):
-                interest_amount = (loan_amount - i * principal) * monthly_interest_rate
-                total_payments += principal + interest_amount
+            total_payments = sum(payment.payment_amount + 200 for payment in obj.payments.all())
         else:
             total_payments = 0
         return '{:,.2f}'.format(total_payments)
 
     def get_overpayment(self, obj):
         if obj.payment_schedule == 'annuity':
-            total_payments = len(obj.payments.all())
+            total_payments = obj.loan_period
             payment_amount = obj.payments.first().payment_amount
             total_amount = payment_amount * total_payments
             overpayment = total_amount - obj.loan_amount
         elif obj.payment_schedule == 'differentiated':
-            loan_amount = obj.loan_amount
-            loan_period = obj.loan_period
-            interest_rate = obj.interest_rate
-            monthly_interest_rate = interest_rate / 12 / 100
-            principal = loan_amount / loan_period
-            overpayment = 0
-            for i in range(loan_period):
-                interest_amount = (loan_amount - i * principal) * monthly_interest_rate
-                overpayment += interest_amount
+            total_payments = sum(payment.payment_amount + 200 for payment in obj.payments.all())
+            overpayment = total_payments - obj.loan_amount
         else:
             overpayment = 0
         return '{:,.2f}'.format(overpayment)
