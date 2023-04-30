@@ -54,10 +54,10 @@ class CreditSerializer(serializers.ModelSerializer):
             total_payments = 0
             for i in range(loan_period):
                 interest_amount = (loan_amount - i * principal) * monthly_interest_rate
-                total_payments += principal + 4000 + interest_amount
+                total_payments += principal + interest_amount
         else:
             total_payments = 0
-        return total_payments
+        return '{:,.2f}'.format(total_payments)
 
     def get_overpayment(self, obj):
         if obj.payment_schedule == 'annuity':
@@ -74,10 +74,10 @@ class CreditSerializer(serializers.ModelSerializer):
             overpayment = 0
             for i in range(loan_period):
                 interest_amount = (loan_amount - i * principal) * monthly_interest_rate
-                overpayment += interest_amount + 4000
+                overpayment += interest_amount
         else:
             overpayment = 0
-        return overpayment
+        return '{:,.2f}'.format(overpayment)
 
 
 # Product Serializers
