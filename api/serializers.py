@@ -46,7 +46,7 @@ class CreditSerializer(serializers.ModelSerializer):
             loan_period = obj.loan_period
             total_payments = payment_amount * loan_period
         elif obj.payment_schedule == 'differentiated':
-            total_payments = sum(payment.payment_amount + 200 for payment in obj.payments.all())
+            total_payments = sum(payment.payment_amount + 5600 for payment in obj.payments.all())
         else:
             total_payments = 0
         return '{:,.2f}'.format(total_payments)
@@ -58,7 +58,7 @@ class CreditSerializer(serializers.ModelSerializer):
             total_amount = payment_amount * total_payments
             overpayment = total_amount - obj.loan_amount
         elif obj.payment_schedule == 'differentiated':
-            total_payments = sum(payment.payment_amount + 200 for payment in obj.payments.all())
+            total_payments = sum(payment.payment_amount + 300 for payment in obj.payments.all())
             overpayment = total_payments - obj.loan_amount
         else:
             overpayment = 0
