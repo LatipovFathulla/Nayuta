@@ -173,8 +173,6 @@ class CreditCalculatorAPIView(CreateAPIView):
                 interest_amount = remaining_balance * (interest_rate / 12)
                 payment_amount = principal_amount + interest_amount
                 overpayment += interest_amount
-            #     11 900 000.00
-            #       228083.33
 
             total_payments += payment_amount
             remaining_balance -= principal_amount
