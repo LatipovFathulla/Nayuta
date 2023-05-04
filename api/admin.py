@@ -21,11 +21,18 @@ class MyTranslationAdmin(TranslationAdmin):
 # Carousel administration
 @admin.register(CarouselModel)
 class CarouselModelAdmin(MyTranslationAdmin):
-    list_display = ['id', 'title', 'created_at', 'updated_at']
+    list_display = ['id', 'title', 'med_image_tag', 'created_at', 'updated_at']
     search_fields = ['title']
     list_filter = ['title', 'created_at', 'updated_at']
     order_by = 'created_at'
 
+    def med_image_tag(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" height="60" />'.format(obj.image.url))
+        else:
+            return '-'
+
+    med_image_tag.short_description = 'Изображения'
 
 # Calculator administration
 
@@ -62,13 +69,45 @@ class IndividualCreditModelAdmin(MyTranslationAdmin):
 
 @admin.register(IndividualCreditTypeModel)
 class IndividualCreditTypeModelAdmin(MyTranslationAdmin):
-    list_display = ['id', 'title', 'created_at', 'updated_at']
+    list_display = ['id', 'title', 'med_image_tag', 'sec_image_tag', 'created_at', 'updated_at']
     search_fields = ['title']
     list_filter = ['title', 'created_at', 'updated_at']
     ordering = ['-created_at']
 
+    def med_image_tag(self, obj):
+        if obj.first_image:
+            return format_html('<img src="{}" height="60" />'.format(obj.first_image.url))
+        else:
+            return '-'
+
+    med_image_tag.short_description = 'Изображения1'
+
+    def sec_image_tag(self, obj):
+        if obj.second_image:
+            return format_html('<img src="{}" height="60" />'.format(obj.second_image.url))
+        else:
+            return '-'
+
+    sec_image_tag.short_description = 'Изображения2'
+
 
 @admin.register(LegalEntitiesModel)
 class LegalEntitiesModel(MyTranslationAdmin):
-    list_display = ['id', 'title', 'created_at', 'updated_at']
+    list_display = ['id', 'title', 'med_image_tag', 'sec_image_tag', 'created_at', 'updated_at']
     search_fields = ['title']
+
+    def med_image_tag(self, obj):
+        if obj.first_image:
+            return format_html('<img src="{}" height="60" />'.format(obj.first_image.url))
+        else:
+            return '-'
+
+    med_image_tag.short_description = 'Изображения1'
+
+    def sec_image_tag(self, obj):
+        if obj.second_image:
+            return format_html('<img src="{}" height="60" />'.format(obj.second_image.url))
+        else:
+            return '-'
+
+    sec_image_tag.short_description = 'Изображения2'
