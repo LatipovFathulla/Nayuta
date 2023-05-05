@@ -18,7 +18,7 @@ class CarouselModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CarouselModel
-        fields = ['id', 'title', 'descriptions', 'image', 'link', 'created_at', 'updated_at']
+        fields = ['id', 'title', 'descriptions', 'image', 'created_at', 'updated_at']
 
 
 # Calculator serializers
