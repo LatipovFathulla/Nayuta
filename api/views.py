@@ -156,7 +156,7 @@ class CreditCalculatorAPIView(CreateAPIView):
             payment_amount = loan_amount / loan_period
 
         # Вычисляем даты и суммы платежей
-        payment_date = datetime.now()
+        payment_date = datetime.now() + relativedelta(months=1)
         remaining_balance = loan_amount
         total_payments = 0
         overpayment = 0
