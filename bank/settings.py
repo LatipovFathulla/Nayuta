@@ -187,8 +187,8 @@ CKEDITOR_CONFIGS = {
 }
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Nayuta.uz", "site_header": "Nayuta.uz", "site_brand": "Nayuta.uz",
-    "site_logo": "nayuta.svg",
+    "site_title": "Nayuta.uz", "site_header": "Nayuta.uz", "site_brand": ".UZ",
+    "site_logo": "nayuta.svg", "site_logo_classes": "img-circle",
     "login_logo": None, "login_logo_dark": True,
     "site_icon": None, "welcome_sign": "Nayuta.uz", "copyright": "Nayuta.uz", "user_avatar": None,
     "show_ui_builder": True, "topmenu_links": [
