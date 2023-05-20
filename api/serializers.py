@@ -34,11 +34,19 @@ class CreditSerializer(serializers.ModelSerializer):
     payments = PaymentSerializer(many=True)
     total_payments = serializers.SerializerMethodField()
     overpayment = serializers.SerializerMethodField()
+    pdf = serializers.SerializerMethodField()
 
     class Meta:
         model = Credit
         fields = ('price', 'down_payment_percentage', 'loan_amount', 'interest_rate', 'payment_schedule', 'loan_period',
-                  'payments', 'total_payments', 'overpayment')
+                  'payments', 'total_payments', 'overpayment', 'pdf')
+        read_only_fields = ['pdf']
+
+    def get_pdf(self, obj):
+        request = self.context.get('request')
+        if request is not None:
+            return request.build_absolute_uri(obj.pdf)
+        return None
 
     def get_total_payments(self, obj):
         if obj.payment_schedule == 'annuity':

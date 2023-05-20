@@ -1,9 +1,14 @@
+import os
+
 from dateutil.relativedelta import relativedelta
+from django.forms import model_to_dict
 from django.utils.translation import activate
 from rest_framework.decorators import api_view
 import requests
 from datetime import datetime, timedelta
 from rest_framework import status
+
+from bank import settings
 from .models import Credit, Payment
 from .serializers import CreditSerializer
 from decimal import Decimal
@@ -17,6 +22,7 @@ from api.models import CarouselModel, ProductModel, FAQModel, IndividualCreditTy
 from api.serializers import CarouselModelSerializer, ProductSerializer, FAQSerializer, \
     IndividualCreditTypeModelSerializer, \
     LegalEntitiesModelSerializer, IndividualCreditModelSerializer
+from .utils import generate_pdf
 
 
 @api_view(['GET'])
@@ -130,7 +136,6 @@ class CarouselListAPIView(ListAPIView):
 #         serializer = CreditSerializer(credit)
 #         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-
 class CreditCalculatorAPIView(CreateAPIView):
     serializer_class = CreditSerializer
     queryset = Credit.objects.all()
@@ -180,7 +185,6 @@ class CreditCalculatorAPIView(CreateAPIView):
             if payment_schedule == 'differentiated':
                 overpayment += interest_amount
 
-
             # Сохраняем данные платежа в модели Payment
             payment = Payment(
                 credit=None,
@@ -215,9 +219,15 @@ class CreditCalculatorAPIView(CreateAPIView):
             payment.credit = credit
             payment.save()
 
+        payment_data = [model_to_dict(payment) for payment in payments]
+
+        pdf_filename = generate_pdf(payment_data)
         # Возвращаем данные в ответе
         serializer = CreditSerializer(credit)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        response_data = serializer.data
+        pdf_url = os.path.join(settings.MEDIA_URL, 'pdf', os.path.basename(pdf_filename))
+        response_data['pdf'] = request.build_absolute_uri(pdf_url)
+        return Response(response_data, status=status.HTTP_201_CREATED)
 
 # Products serialziers
 class ProductSerializerListAPIView(ListAPIView):

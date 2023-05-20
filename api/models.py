@@ -40,6 +40,7 @@ class Credit(models.Model):
     interest_rate = models.DecimalField(max_digits=15, decimal_places=2)
     payment_schedule = models.CharField(max_length=20, choices=PAYMENT_SCHEDULE_CHOICES)
     loan_period = models.IntegerField()
+    pdf = models.FileField(upload_to='pdfs/',  null=True)
 
 class Payment(models.Model):
     credit = models.ForeignKey(Credit, on_delete=models.CASCADE, related_name='payments')
