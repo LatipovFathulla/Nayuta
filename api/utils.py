@@ -7,21 +7,18 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib import colors
-
+import re
+from api.serializers import CreditSerializer
 from bank import settings
 
+
 def format_number(number):
-    number_str = f"{number:.2f}"
-    integer_part, decimal_part = number_str.split('.')
-    formatted_integer_part = ''
-    for i, digit in enumerate(reversed(integer_part)):
-        formatted_integer_part = digit + formatted_integer_part
-        if (i + 1) % 3 == 0 and i != len(integer_part) - 1:
-            formatted_integer_part = '.' + formatted_integer_part
-    return formatted_integer_part + '.' + decimal_part if decimal_part else formatted_integer_part
+    number_str = f"{number:,.2f}".replace(".", ",")
+    return number_str
 
 
-def generate_pdf(payments):
+def generate_pdf(payments, price, down_payment_percentage, loan_amount, interest_rate, payment_schedule, loan_period,
+                 total_payments):
     pdfmetrics.registerFont(TTFont('Arial', 'Arial.ttf'))
 
     output_folder = os.path.join(settings.MEDIA_ROOT, 'pdf')
@@ -32,6 +29,31 @@ def generate_pdf(payments):
     filename = os.path.join(output_folder, 'results.pdf')
 
     doc = SimpleDocTemplate(filename, pagesize=letter, title="info prices")
+
+    # Создаем список данных заголовка
+    header_data = [
+        ['Цена', format_number(price)],
+        ['Первоначального взнос %', f'{down_payment_percentage}%'],
+        ['Сумма кредита', format_number(loan_amount)],
+        ['Процентная ставка', re.sub(r'^0,', '', format_number(interest_rate)) + '%'],
+        # Форматируем процентную ставку
+        ['График платежей', get_payment_schedule_label(payment_schedule)],
+        ['Срок кредита', str(loan_period)],
+        ['Общие выплаты', format_number(total_payments)],
+        # ['Переплата', format_number(get_overpayment)],  # Удалено преобразование в число с плавающей запятой
+    ]
+
+    # Создаем таблицу заголовков и задаем стили
+    header_table = Table(header_data, colWidths=[150, 150])
+    header_table.setStyle(TableStyle([
+        ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
+        ('FONTSIZE', (0, 0), (-1, -1), 12, 'Arial'),
+        ('LEADING', (0, 0), (-1, -1), 15),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        ('TOPPADDING', (0, 0), (-1, -1), 6),
+        ('ALIGN', (-1, 0), (-1, -1), 'RIGHT'),
+        ('ALIGN', (0, 0), (0, -5), 'LEFT'),
+    ]))
 
     # Создаем список данных таблицы
     data = [
@@ -66,16 +88,17 @@ def generate_pdf(payments):
         ('FONTNAME', (0, 0), (-1, 0), 'Arial'),
         ('FONTSIZE', (0, 0), (-1, 0), 12, 'Arial'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('LEFTPADDING', (0, 0), (-1, 0), 12),
         ('BACKGROUND', (0, 1), (-1, -1), colors.white),
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
     ])
 
-    # Создаем таблицу и применяем стили
+    # Создаем таблицу данных и применяем стили
     table = Table(data, colWidths=[20, 85, 110, 110, 110, 140])
     table.setStyle(table_style)
 
-    # Добавляем таблицу в документ
-    elements = [table]
+    # Добавляем таблицу заголовков и таблицу данных в документ
+    elements = [header_table, table]
 
     # Сохраняем документ
     doc.build(elements)
@@ -90,3 +113,12 @@ def delete_old_files(folder, days):
         modified_time = datetime.fromtimestamp(os.path.getmtime(file))
         if (now - modified_time) > timedelta(days=days):
             os.remove(file)
+
+
+def get_payment_schedule_label(schedule):
+    if schedule == 'annuity':
+        return 'Аннуитетный'
+    elif schedule == 'differentiated':
+        return 'Дифференцированный'
+    else:
+        return ''

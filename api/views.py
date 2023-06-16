@@ -221,7 +221,16 @@ class CreditCalculatorAPIView(CreateAPIView):
 
         payment_data = [model_to_dict(payment) for payment in payments]
 
-        pdf_filename = generate_pdf(payment_data)
+        pdf_filename = generate_pdf(
+            payment_data,
+            price,
+            down_payment_percentage,
+            loan_amount,
+            interest_rate,
+            payment_schedule,
+            loan_period,
+            total_payments,
+        )
         # Возвращаем данные в ответе
         serializer = CreditSerializer(credit)
         response_data = serializer.data
