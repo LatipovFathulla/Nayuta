@@ -3,9 +3,11 @@ import glob
 from datetime import datetime, timedelta
 
 from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image, Paragraph
 from reportlab.lib import colors
 import re
 from api.serializers import CreditSerializer
@@ -32,6 +34,8 @@ def generate_pdf(payments, price, down_payment_percentage, loan_amount, interest
 
     # Создаем список данных заголовка
     header_data = [
+        # [Image('static/nayuta.png', width=2 * inch, height=2 * inch, hAlign='CENTER')],
+        [Paragraph('<b>Nayuta.uz</b>', getSampleStyleSheet()['Heading1'])],
         ['Цена', format_number(price)],
         ['Первоначального взнос %', f'{down_payment_percentage}%'],
         ['Сумма кредита', format_number(loan_amount)],
@@ -49,7 +53,7 @@ def generate_pdf(payments, price, down_payment_percentage, loan_amount, interest
         ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
         ('FONTSIZE', (0, 0), (-1, -1), 12, 'Arial'),
         ('LEADING', (0, 0), (-1, -1), 15),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 9),
         ('TOPPADDING', (0, 0), (-1, -1), 6),
         ('ALIGN', (-1, 0), (-1, -1), 'RIGHT'),
         ('ALIGN', (0, 0), (0, -5), 'LEFT'),
@@ -88,6 +92,7 @@ def generate_pdf(payments, price, down_payment_percentage, loan_amount, interest
         ('FONTNAME', (0, 0), (-1, 0), 'Arial'),
         ('FONTSIZE', (0, 0), (-1, 0), 12, 'Arial'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('TOPPADDING', (0, 0), (-1, 0), 12),
         ('LEFTPADDING', (0, 0), (-1, 0), 12),
         ('BACKGROUND', (0, 1), (-1, -1), colors.white),
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
