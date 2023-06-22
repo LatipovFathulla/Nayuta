@@ -10,17 +10,14 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image, Paragraph
 from reportlab.lib import colors
 import re
+
+from api.common import format_number
 from api.serializers import CreditSerializer
 from bank import settings
 
 
-def format_number(number):
-    number_str = f"{number:,.2f}".replace(".", ",")
-    return number_str
-
-
 def generate_pdf(payments, price, down_payment_percentage, loan_amount, interest_rate, payment_schedule, loan_period,
-                 total_payments):
+                 total_payments, overpayment):
     pdfmetrics.registerFont(TTFont('Arial', 'Arial.ttf'))
 
     output_folder = os.path.join(settings.MEDIA_ROOT, 'pdf')
@@ -44,6 +41,7 @@ def generate_pdf(payments, price, down_payment_percentage, loan_amount, interest
         ['График платежей', get_payment_schedule_label(payment_schedule)],
         ['Срок кредита', str(loan_period)],
         ['Общие выплаты', format_number(total_payments)],
+        ['Переплата', format_number(overpayment)],
         # ['Переплата', format_number(get_overpayment)],  # Удалено преобразование в число с плавающей запятой
     ]
 
