@@ -36,7 +36,7 @@ def generate_pdf(payments, price, down_payment_percentage, loan_amount, interest
         ['Цена', format_number(price)],
         ['Первоначального взнос %', f'{down_payment_percentage}%'],
         ['Сумма кредита', format_number(loan_amount)],
-        ['Процентная ставка', re.sub(r'^0,', '', format_number(interest_rate)) + '%'],
+        ['Процентная ставка', re.sub(r'^0,', '', format_number(interest_rate)).lstrip('0.') + '%'],
         # Форматируем процентную ставку
         ['График платежей', get_payment_schedule_label(payment_schedule)],
         ['Срок кредита', str(loan_period)],
