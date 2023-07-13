@@ -103,8 +103,9 @@ class CreditCalculatorAPIView(CreateAPIView):
                 principal_amount = payment_amount - interest_amount
             elif payment_schedule == 'differentiated':
                 # Дифференцированный платеж
+                principal_amount = loan_amount / loan_period
                 interest_amount = remaining_balance * (interest_rate / 12)
-                principal_amount = payment_amount
+                payment_amount = principal_amount + interest_amount
                 overpayment += interest_amount
 
             total_payments += payment_amount
