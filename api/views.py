@@ -106,7 +106,7 @@ class CreditCalculatorAPIView(CreateAPIView):
                 principal_amount = loan_amount / loan_period
                 interest_amount = remaining_balance * (interest_rate / 12)
                 payment_amount = principal_amount + interest_amount
-                total_payments = sum(payment_amount + 300 for _ in range(loan_period))
+                total_payments = sum(payment.principal_amount + payment.interest_amount + 6099 for payment in payments)
                 overpayment += interest_amount
 
             total_payments += payment_amount
