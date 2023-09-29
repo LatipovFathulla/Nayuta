@@ -114,21 +114,6 @@ class IndividualCreditTypeModel(models.Model):
 
 
 # Yuridik credit
-# class LegalEntitiesModel(models.Model):
-#     title = models.CharField(max_length=400, verbose_name=_('title'))
-#     short_description = models.TextField(verbose_name=_('description'))
-#     long_description = RichTextField(verbose_name=_('long_description'))
-#     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
-#     updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
-#
-#     def __str__(self):
-#         return self.title
-#
-#     class Meta:
-#         verbose_name = _('Legal Entities')
-#         verbose_name_plural = _('Legal Entities')
-
-
 class LegalEntitiesModel(models.Model):
     title = models.CharField(max_length=400, verbose_name=_('title'))
     short_description = models.TextField(verbose_name=_('description'))
@@ -144,3 +129,62 @@ class LegalEntitiesModel(models.Model):
     class Meta:
         verbose_name = _('Legal Entities')
         verbose_name_plural = _('Legal Entities')
+
+
+class JapaneseCarouselModel(models.Model):
+    title = models.CharField(max_length=90, null=True, blank=True)
+    descriptions = models.TextField(verbose_name=_('descriptions'), null=True, blank=True)
+    image = models.FileField(upload_to='Carousel-images', verbose_name=_('image'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+
+    def __str__(self):
+        return self.title or ''
+
+    class Meta:
+        verbose_name = _('Japanese Carousel')
+        verbose_name_plural = _('Japanese Carousels')
+
+
+class JapaneseProductModel(models.Model):
+    image = models.FileField(upload_to='ProductJapanese', verbose_name=_('image'))
+    title = models.CharField(max_length=255, verbose_name=_('title'))
+    description = models.TextField(verbose_name=_('description'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+
+    def __str__(self):
+        return self.title or ''
+
+    class Meta:
+        verbose_name = _('Japanese Product')
+        verbose_name_plural = _('Japanese Products')
+
+
+class JapaneseTeamModel(models.Model):
+    name = models.CharField(max_length=60, verbose_name=_('name'))
+    description = models.TextField(verbose_name=_('descriptions team'))
+    image = models.FileField(upload_to='JapaneseTeam')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+
+    def __str__(self):
+        return self.name or ''
+
+    class Meta:
+        verbose_name = _('Japanese Team')
+        verbose_name_plural = _('Japanese Teams')
+
+
+class JapanesePDF(models.Model):
+    pdf = models.FileField(upload_to='JapanesePDF', verbose_name=_('pdf'))
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+
+    def __str__(self):
+        return str(self.pk)
+
+    class Meta:
+        verbose_name = _('Japanese PDF')
+        verbose_name_plural = _('Japanese PDF')

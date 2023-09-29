@@ -3,7 +3,8 @@ from django.utils.html import format_html
 from modeltranslation.admin import TranslationAdmin
 
 from api.models import CarouselModel, ProductModel, FAQModel, \
-    IndividualCreditTypeModel, LegalEntitiesModel, IndividualCreditModel
+    IndividualCreditTypeModel, LegalEntitiesModel, IndividualCreditModel, JapaneseCarouselModel, JapaneseProductModel, \
+    JapaneseTeamModel, JapanesePDF
 
 
 class MyTranslationAdmin(TranslationAdmin):
@@ -33,6 +34,7 @@ class CarouselModelAdmin(MyTranslationAdmin):
             return '-'
 
     med_image_tag.short_description = 'Изображения'
+
 
 # Calculator administration
 
@@ -95,6 +97,7 @@ class IndividualCreditTypeModelAdmin(MyTranslationAdmin):
 class LegalEntitiesModel(MyTranslationAdmin):
     list_display = ['id', 'title', 'med_image_tag', 'sec_image_tag', 'created_at', 'updated_at']
     search_fields = ['title']
+    list_filter = ['title']
 
     def med_image_tag(self, obj):
         if obj.first_image:
@@ -111,3 +114,52 @@ class LegalEntitiesModel(MyTranslationAdmin):
             return '-'
 
     sec_image_tag.short_description = 'Изображения2'
+
+
+@admin.register(JapaneseCarouselModel)
+class JapaneseCarouselModelAdmin(admin.ModelAdmin):
+    list_display = ['title', 'descriptions', 'japanase_image_tag', 'created_at', 'updated_at']
+    search_fields = ['title']
+    list_filter = ['title']
+
+    def japanase_image_tag(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" height="60" />'.format(obj.image.url))
+        else:
+            return '-'
+
+    japanase_image_tag.short_description = 'Изображения'
+
+@admin.register(JapaneseProductModel)
+class JapaneseProductModelAdmin(admin.ModelAdmin):
+    list_display = ['japanase_pr_image_tag', 'title', 'description', 'created_at', 'updated_at']
+    search_fields = ['title']
+    list_filter = ['title', 'created_at']
+
+    def japanase_pr_image_tag(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" height="60" />'.format(obj.image.url))
+        else:
+            return '-'
+
+    japanase_pr_image_tag.short_description = 'Изображения'
+
+
+@admin.register(JapaneseTeamModel)
+class JapaneseTeamModelAdmin(admin.ModelAdmin):
+    list_display = ['name', 'description', 'japanase_p_image_tag', 'created_at', 'updated_at']
+    search_fields = ['name']
+    list_filter = ['name', 'created_at']
+
+    def japanase_p_image_tag(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" height="60" />'.format(obj.image.url))
+        else:
+            return '-'
+
+    japanase_p_image_tag.short_description = 'Изображения'
+
+
+@admin.register(JapanesePDF)
+class JapanesePDFAdmin(admin.ModelAdmin):
+    list_display = ['pdf', 'created_at']

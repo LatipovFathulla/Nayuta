@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 from .models import LegalEntitiesModel, CarouselModel, ProductModel, FAQModel, IndividualCreditModel, \
-    IndividualCreditTypeModel
+    IndividualCreditTypeModel, JapaneseCarouselModel, JapaneseProductModel, JapaneseTeamModel, JapanesePDF
 
 
 @register(LegalEntitiesModel)
@@ -31,3 +31,19 @@ class CarouselModelTranslationOptions(TranslationOptions):
 @register(IndividualCreditTypeModel)
 class CarouselModelTranslationOptions(TranslationOptions):
     fields = ('title', 'description')
+
+
+@register(JapaneseCarouselModel)
+class JapaneseCarouselModelTranslationOptions(TranslationOptions):
+    fields = ('title', 'descriptions')
+
+
+@register(JapaneseProductModel)
+class JapaneseProductModelTranslationOptions(TranslationOptions):
+    fields = ('title', 'description')
+
+
+@register(JapaneseTeamModel)
+class JapaneseTeamModelTranslationOptions(TranslationOptions):
+    fields = ('name', 'description')
+

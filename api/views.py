@@ -9,8 +9,9 @@ from datetime import datetime, timedelta
 from rest_framework import status
 
 from bank import settings
-from .models import Credit, Payment
-from .serializers import CreditSerializer
+from .models import Credit, Payment, JapaneseCarouselModel, JapaneseProductModel, JapaneseTeamModel, JapanesePDF
+from .serializers import CreditSerializer, JapaneseCarouselModelSerializer, JapaneseProductModelSerializer, \
+    JapaneseTeamModelSerializer, JapanesePDFSerializer
 from decimal import Decimal
 
 from rest_framework.generics import ListAPIView, CreateAPIView
@@ -58,7 +59,7 @@ class CarouselListAPIView(ListAPIView):
         return super().list(request, *args, **kwargs)
 
 
-#Calculate
+# Calculate
 
 class CreditCalculatorAPIView(CreateAPIView):
     serializer_class = CreditSerializer
@@ -79,7 +80,8 @@ class CreditCalculatorAPIView(CreateAPIView):
         # Вычисляем параметры выплаты
         if payment_schedule == 'annuity':
             # Аннуитетный платеж
-            payment_amount = loan_amount * (interest_rate / 12) * ((1 + interest_rate / 12) ** loan_period) / (((1 + interest_rate / 12) ** loan_period) - 1)
+            payment_amount = loan_amount * (interest_rate / 12) * ((1 + interest_rate / 12) ** loan_period) / (
+                        ((1 + interest_rate / 12) ** loan_period) - 1)
             total_payments = loan_period
             overpayment = (payment_amount * total_payments) - loan_amount
         elif payment_schedule == 'differentiated':
@@ -167,6 +169,7 @@ class CreditCalculatorAPIView(CreateAPIView):
         response_data['pdf'] = request.build_absolute_uri(pdf_url)
         return Response(response_data, status=status.HTTP_201_CREATED)
 
+
 # Products serialziers
 class ProductSerializerListAPIView(ListAPIView):
     ''' Products = Микрозайм, микрокредиты и т.д'''
@@ -179,6 +182,8 @@ class ProductSerializerListAPIView(ListAPIView):
             activate(language)
 
         return super().list(request, *args, **kwargs)
+
+
 # FAQ serializers
 class FAQSerializerListAPIView(ListAPIView):
     ''' FAQ = Часто задаваемые вопросы (GET) '''
@@ -235,3 +240,23 @@ class LegalEntitiesModelSerializerListAPIView(ListAPIView):
             activate(language)
 
         return super().list(request, *args, **kwargs)
+
+
+class JapaneseCarouselModelListAPIView(ListAPIView):
+    queryset = JapaneseCarouselModel.objects.all()
+    serializer_class = JapaneseCarouselModelSerializer
+
+
+class JapaneseProductModelListAPIView(ListAPIView):
+    queryset = JapaneseProductModel.objects.all()
+    serializer_class = JapaneseProductModelSerializer
+
+
+class JapaneseTeamModelListAPIView(ListAPIView):
+    queryset = JapaneseTeamModel.objects.all()
+    serializer_class = JapaneseTeamModelSerializer
+
+
+class JapanesePDFListAPIView(ListAPIView):
+    queryset = JapanesePDF.objects.all()
+    serializer_class = JapanesePDFSerializer

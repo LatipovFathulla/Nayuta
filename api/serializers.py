@@ -2,7 +2,8 @@ from modeltranslation.utils import get_language
 from rest_framework import serializers
 
 from api.models import CarouselModel, ProductModel, FAQModel, \
-    IndividualCreditTypeModel, LegalEntitiesModel, IndividualCreditModel, Payment, Credit
+    IndividualCreditTypeModel, LegalEntitiesModel, IndividualCreditModel, Payment, Credit, JapaneseCarouselModel, \
+    JapaneseProductModel, JapaneseTeamModel, JapanesePDF
 
 
 # Carousel serializers
@@ -159,3 +160,54 @@ class LegalEntitiesModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = LegalEntitiesModel
         fields = ['title', 'short_description', 'long_description', 'first_image', 'second_image']
+
+
+class JapaneseCarouselModelSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    descriptions = serializers.SerializerMethodField()
+
+    def get_title(self, obj):
+        return obj.title if get_language() == 'ru' else getattr(obj, f'title_{get_language()}')
+
+    def get_descriptions(self, obj):
+        return obj.descriptions if get_language() == 'ru' else getattr(obj, f'descriptions_{get_language()}')
+
+    class Meta:
+        model = JapaneseCarouselModel
+        fields = ['title', 'descriptions', 'image', 'created_at', 'updated_at']
+
+
+class JapaneseProductModelSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+
+    def get_title(self, obj):
+        return obj.title if get_language() == 'ru' else getattr(obj, f'title_{get_language()}')
+
+    def get_description(self, obj):
+        return obj.description if get_language() == 'ru' else getattr(obj, f'description_{get_language()}')
+
+    class Meta:
+        model = JapaneseProductModel
+        fields = ['title', 'description', 'image', 'created_at', 'updated_at']
+
+
+class JapaneseTeamModelSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+
+    def get_name(self, obj):
+        return obj.name if get_language() == 'ru' else getattr(obj, f'name_{get_language()}')
+
+    def get_description(self, obj):
+        return obj.description if get_language() == 'ru' else getattr(obj, f'description_{get_language()}')
+
+    class Meta:
+        model = JapaneseTeamModel
+        fields = ['name', 'description', 'image', 'created_at', 'updated_at']
+
+
+class JapanesePDFSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JapanesePDF
+        fields = '__all__'
