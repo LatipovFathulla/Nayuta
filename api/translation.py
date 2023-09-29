@@ -33,17 +33,3 @@ class CarouselModelTranslationOptions(TranslationOptions):
     fields = ('title', 'description')
 
 
-@register(JapaneseCarouselModel)
-class JapaneseCarouselModelTranslationOptions(TranslationOptions):
-    fields = ('title', 'descriptions')
-
-
-@register(JapaneseProductModel)
-class JapaneseProductModelTranslationOptions(TranslationOptions):
-    fields = ('title', 'description')
-
-
-@register(JapaneseTeamModel)
-class JapaneseTeamModelTranslationOptions(TranslationOptions):
-    fields = ('name', 'description')
-
