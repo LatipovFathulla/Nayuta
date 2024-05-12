@@ -33,8 +33,8 @@ def generate_pdf(payments, price, down_payment_percentage, loan_amount, interest
     header_data = [
         # [Image('static/nayuta.png', width=2 * inch, height=2 * inch, hAlign='CENTER')],
         [Paragraph('<b>Nayuta.uz</b>', getSampleStyleSheet()['Heading1'])],
-        ['Цена', format_number(price)],
-        ['Первоначального взнос %', f'{down_payment_percentage}%'],
+        ['Сумма микрозайма', format_number(price)],
+        ['Первоначальный взнос', f'{down_payment_percentage}%'],
         ['Сумма кредита', format_number(loan_amount)],
         ['Процентная ставка', re.sub(r'^0,', '', format_number(interest_rate)).lstrip('0.') + '%'],
         # Форматируем процентную ставку
@@ -59,7 +59,7 @@ def generate_pdf(payments, price, down_payment_percentage, loan_amount, interest
 
     # Создаем список данных таблицы
     data = [
-        ['№', 'Дата платежа', 'Сумма платежа', 'Сумма погашения', 'Сумма процентов', 'Остаток задолженности']
+        ['№', 'Дата платежа', 'Сумма ежемесячного платежа', 'Сумма основного долга', 'Сумма начисленных процентов', 'Остаток задолженности']
     ]
 
     for payment in payments:
@@ -88,7 +88,7 @@ def generate_pdf(payments, price, down_payment_percentage, loan_amount, interest
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Arial'),
-        ('FONTSIZE', (0, 0), (-1, 0), 12, 'Arial'),
+        ('FONTSIZE', (0, 0), (-1, 0), 6.5, 'Arial'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
         ('TOPPADDING', (0, 0), (-1, 0), 12),
         ('LEFTPADDING', (0, 0), (-1, 0), 12),
